@@ -144,7 +144,7 @@ public abstract class SpigotBase extends JavaPlugin implements CrossplatFormsBoo
         );
 
         // Wait for debug to be set or not
-        logger.debug("Using " + spigotAdapter.getClass().getSimpleName() + " for server version " + ClassNames.NMS_VERSION);
+        logger.debug("Using " + spigotAdapter.getClass().getSimpleName() + " for server version " + (ClassNames.NMS_VERSION.isEmpty() ? Bukkit.getBukkitVersion() : ClassNames.NMS_VERSION));
 
         SpigotAccessItems accessItems = new SpigotAccessItems(
             this,

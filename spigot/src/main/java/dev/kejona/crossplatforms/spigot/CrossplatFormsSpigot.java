@@ -6,6 +6,8 @@ import dev.kejona.crossplatforms.spigot.adapter.VersionMap;
 import dev.kejona.crossplatforms.spigot.adapter.Versioned;
 
 import java.util.function.Supplier;
+import org.bukkit.Bukkit;
+import dev.kejona.crossplatforms.spigot.adapter.VersionCompatibility;
 
 public class CrossplatFormsSpigot extends SpigotBase {
 
@@ -24,7 +26,14 @@ public class CrossplatFormsSpigot extends SpigotBase {
 
     @Override
     public Versioned<SpigotAdapter> findVersionAdapter() {
-        // substring to remove the v
+        // Since 1.20.5, release naming no longer maps to v1_x_Ry packages.
+        // The modern adapter only uses stable Bukkit APIs for metadata and items.
+        if (VersionCompatibility.usesModernBukkitApi(Bukkit.getBukkitVersion())) {
+            return Versioned.supported(createAdapter("1_20_R2"));
+        }
+        if (ClassNames.NMS_VERSION.isEmpty()) {
+            return Versioned.unsupported("1.20.5 or newer");
+        }
         Versioned<Supplier<SpigotAdapter>> adapterSupplier = INDEXER.lenientSearch(ClassNames.NMS_VERSION.substring(1));
         return Versioned.convertSupplierType(adapterSupplier);
     }

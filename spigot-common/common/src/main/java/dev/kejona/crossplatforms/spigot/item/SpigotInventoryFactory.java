@@ -39,7 +39,7 @@ public class SpigotInventoryFactory implements InventoryFactory {
     @Override
     public InventoryHandle chest(String title, int chestSize) {
         Inventory inventory = Bukkit.createInventory(null, chestSize, title);
-        return new SpigotInventory(inventory);
+        return new SpigotInventory(inventory, title);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class SpigotInventoryFactory implements InventoryFactory {
         }
 
         Inventory inventory = Bukkit.createInventory(null, convertType(layout), title);
-        return new SpigotInventory(inventory);
+        return new SpigotInventory(inventory, title);
     }
 
     @Override
@@ -155,6 +155,7 @@ public class SpigotInventoryFactory implements InventoryFactory {
     private static class SpigotInventory implements InventoryHandle {
 
         private final Inventory handle;
+        private final String title;
 
         @Override
         public Object handle() {
@@ -163,7 +164,7 @@ public class SpigotInventoryFactory implements InventoryFactory {
 
         @Override
         public String title() {
-            return handle.getTitle();
+            return title;
         }
 
         @Override
