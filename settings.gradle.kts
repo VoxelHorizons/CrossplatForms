@@ -1,3 +1,14 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+    plugins {
+        id("net.kyori.indra.git") version "3.0.1" // getting branch and commit info at compile time
+        id("net.kyori.indra") version "3.0.1" // multi-release jar for referencing Java 21 Geyser API
+        id("com.github.johnrengelman.shadow") version "8.1.1" // shadowing dependencies
+    }
+}
+
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.10.0"
 }
@@ -5,17 +16,6 @@ plugins {
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "CrossplatForms"
-
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-    }
-    plugins {
-        id("net.kyori.indra.git") version "3.0.1" // getting branch and commit info at compile time
-        id("net.kyori.indra") version "3.0.1" // multi-release jar for referencing Java 16 geyser api
-        id("com.github.johnrengelman.shadow") version "8.1.1" // shadowing dependencies
-    }
-}
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
