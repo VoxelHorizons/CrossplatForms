@@ -5,7 +5,7 @@ pluginManagement {
     plugins {
         id("net.kyori.indra.git") version "3.0.1" // getting branch and commit info at compile time
         id("net.kyori.indra") version "3.0.1" // multi-release jar for referencing Java 21 Geyser API
-        id("com.github.johnrengelman.shadow") version "8.1.1" // shadowing dependencies
+        id("com.gradleup.shadow") version "8.3.11" // shadowing dependencies
     }
 }
 
