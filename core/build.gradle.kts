@@ -20,7 +20,7 @@ val java21Implementation: Configuration by configurations.getting {
 }
 
 dependencies {
-    testImplementation("org.geysermc.cumulus:cumulus:1.1.1-SNAPSHOT") // needed for testing button components
+    api("org.geysermc.cumulus:cumulus:1.1.2") // forms are not exported transitively by recent Floodgate API
     testImplementation("com.google.code.gson:gson:2.8.6") // needed for cumulus
 
     // Nullability annotations. todo: move to something else
