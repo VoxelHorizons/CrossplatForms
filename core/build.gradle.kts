@@ -7,15 +7,15 @@ plugins {
 sourceSets {
     main {
         multirelease {
-            alternateVersions(16)
+            alternateVersions(21)
         }
     }
 
-    create("java16")
+    create("java21")
 }
 
 // Add more configurations here as necessary
-val java16Implementation: Configuration by configurations.getting {
+val java21Implementation: Configuration by configurations.getting {
     extendsFrom(configurations.implementation.get())
 }
 
@@ -61,9 +61,9 @@ dependencies {
         }
     }
 
-    // dependencies for java16 sources (optionally used at runtime)
-    // if someone wants geyser to be directly used then they must be running java 16 or higher
-    java16Implementation("org.geysermc.api:geyser-api:1.0.1-SNAPSHOT")
+    // dependencies for java21 sources (optionally used at runtime)
+    // if someone wants geyser to be directly used then they must be running java 21 or higher
+    java21Implementation("org.geysermc.geyser:api:2.11.2-SNAPSHOT")
 }
 
 description = "core"

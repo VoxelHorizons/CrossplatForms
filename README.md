@@ -55,3 +55,11 @@ Although using Floodgate should always be preferred, it is not required. If you 
 
 Paper 1.16.5 and newer, Velocity:&ensp;&ensp;&ensp; No extra steps necessary  
 Spigot, BungeeCord, Waterfall:&ensp;&ensp;&ensp;&ensp;&ensp; Add `-Djdk.util.jar.enableMultiRelease=force` to your JVM startup flags.
+
+## VoxelHorizons 2026 compatibility fork
+
+This fork adds a modern Bukkit API-backed adapter for **Minecraft Java Edition 26.3** and targets the current **Geyser API 2.11.2-SNAPSHOT**. Minecraft 26.3 Paper requires **Java 25**. It avoids versioned CraftBukkit package assumptions, uses the public skull owner profile API, and avoids removed `Inventory#getTitle` calls.
+
+Install `CrossplatForms-Spigot.jar` on Paper 26.3, with an up-to-date Geyser-Spigot and optionally Floodgate. The Geyser direct-API implementation uses Java 21 multi-release classes; when Floodgate is available it remains the preferred form transport. Build using `./gradlew clean build` with Java 21 to run Gradle; compilation toolchains are provisioned automatically.
+
+**Verification:** A successful build does not demonstrate runtime compatibility. On a Paper 26.3 server, exercise opening and closing simple, modal and custom forms, submitting custom form responses, player-head rendering, inventory clicks, persistent access items, and player transfers using an actual Bedrock client.
