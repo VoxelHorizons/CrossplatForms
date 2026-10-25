@@ -13,7 +13,7 @@ allprojects{
     apply(plugin = "net.kyori.indra.git")
 
     group = "dev.kejona"
-    version = "1.6.2-voxel"
+    version = "1.6.3-voxel"
 
     java {
         toolchain {

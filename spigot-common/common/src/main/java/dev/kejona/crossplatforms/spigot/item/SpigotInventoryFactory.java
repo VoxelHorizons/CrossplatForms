@@ -29,11 +29,8 @@ public class SpigotInventoryFactory implements InventoryFactory {
 
     private final Logger logger = Logger.get();
     private final SpigotAdapter adapter;
-    private final Material playerHeadMaterial;
-
     public SpigotInventoryFactory(SpigotAdapter adapter) {
         this.adapter = adapter;
-        this.playerHeadMaterial = adapter.playerHeadMaterial();
     }
 
     @Override
@@ -111,7 +108,7 @@ public class SpigotInventoryFactory implements InventoryFactory {
     }
 
     private ItemStack skullBase(String displayName, List<String> lore) {
-        ItemStack item = new ItemStack(playerHeadMaterial);
+        ItemStack item = adapter.playerHeadItem();
         SkullMeta meta = (SkullMeta) item.getItemMeta();
 
         if (displayName != null) {

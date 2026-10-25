@@ -33,7 +33,7 @@ public class VersionMapTest {
         EXPECTATIONS.put("1_9_R2", "1_9_R2");
         EXPECTATIONS.put("1_10_R1", "1_9_R2");
         EXPECTATIONS.put("1_11_R1", "1_9_R2");
-        EXPECTATIONS.put("1_12_R1", "1_12_R1");
+        EXPECTATIONS.put("1_12_R1", "1_12_R1"); // Never route legacy 1.12 to 1.13+ PLAYER_HEAD implementation
         EXPECTATIONS.put("1_13_R1", "1_13_R2"); // yikes
         EXPECTATIONS.put("1_13_R2", "1_13_R2");
         EXPECTATIONS.put("1_14_R1", "1_14_R1");

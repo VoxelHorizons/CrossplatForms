@@ -2,6 +2,7 @@ package dev.kejona.crossplatforms.spigot.v1_13_R2;
 
 import dev.kejona.crossplatforms.spigot.v1_12_R1.Adapter_v1_12_R1;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 public class Adapter_v1_13_R2 extends Adapter_v1_12_R1 {
 
@@ -11,5 +12,11 @@ public class Adapter_v1_13_R2 extends Adapter_v1_12_R1 {
     @Override
     public Material playerHeadMaterial() {
         return Material.PLAYER_HEAD;
+    }
+
+    @Override
+    public ItemStack playerHeadItem() {
+        // Flattened item IDs have no skull subtype durability.
+        return new ItemStack(Material.PLAYER_HEAD);
     }
 }

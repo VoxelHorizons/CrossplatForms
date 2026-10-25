@@ -20,6 +20,17 @@ public interface SpigotAdapter {
 
     Material playerHeadMaterial();
 
+    /**
+     * Returns an item stack representing a PLAYER skull on this Minecraft version.
+     *
+     * On 1.12.2 and earlier, SKULL_ITEM needs durability/data value 3;
+     * after the 1.13 flattening, PLAYER_HEAD has no legacy data value.
+     * The selected version adapter owns this distinction.
+     */
+    default ItemStack playerHeadItem() {
+        return new ItemStack(playerHeadMaterial());
+    }
+
     @Contract("_, null, null -> fail")
     void setSkullProfile(SkullMeta meta, String name, String textures);
 

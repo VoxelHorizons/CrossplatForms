@@ -35,6 +35,13 @@ public class Adapter_v1_8_R3 implements SpigotAdapter {
     }
 
     @Override
+    public ItemStack playerHeadItem() {
+        // SKULL_ITEM uses a damage/data value to choose the skull type on 1.8–1.12.
+        // Zero creates a skeleton skull, not a player skull.
+        return new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+    }
+
+    @Override
     public void setSkullProfile(SkullMeta meta, @Nullable String name, @Nullable String textures) {
         if (textures == null) {
             if (name == null) {
