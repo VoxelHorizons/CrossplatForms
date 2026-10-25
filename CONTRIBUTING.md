@@ -1,15 +1,23 @@
-# How to build
+# Contributing to VoxelHorizons/CrossplatForms
 
-Executing `./gradlew clean build` will execute typical building, as well as tests and shading required for each platform.  
-Once finished the build for a given platform is available in `<platform>/build/libs`. `Crossplatforms-<platform>.jar` is the built plugin that
-can run a server. `<platform>-<version>.jar` contains only native sources.
+Please submit issues and pull requests to **this fork**, not the dormant upstream repository.
 
-# Contribution guidelines
+## Build and validate
 
-- Follow general best practices.
-- Follow the existing indentation and space styling.
-- The only nullability annotation used should be from javax. You can configure IntelliJ IDEA to use javax annotations when automatically adding nullability annotations.
-- Avoid using the static getters on `Crossplatforms.class` or any of the platform main classes, unless other options aren't feasible.
-- Keep breaking changes to configuration classes as small as possible, but don't let it hold better design back.
-- If you make any breaking changes to configuration classes, please write a version translator to automatically update older versions to the newer one. Configurate has
-examples of this as well as the existing version translators that we have.
+~~~sh
+./gradlew clean build
+python3 scripts/check_docs.py
+~~~
+
+The platform jars are `CrossplatForms-Spigot.jar`, `CrossplatForms-Velocity.jar` and `CrossplatForms-BungeeCord.jar` under their respective `build/libs/` directories. Keep Geyser/Floodgate/Cumulus APIs external to the packaged jar, since duplicate API classes produce runtime linkage errors.
+
+## Contribution requirements
+
+- Follow existing style and nullability conventions.
+- Any breaking configuration change needs a `config-version` migration and regression tests.
+- New actions, parsers, fillers, components or commands need working YAML examples and relevant updates to [the maintained documentation](docs/index.md).
+- Cover parsers and version routing with unit tests; **live** Bedrock-client behaviour must be checked separately.
+- Update [Known limitations](docs/known-limitations.md) when a formerly unverified feature is tested.
+- Do not reintroduce dead upstream wiki/download links.
+
+Include plugin/server/Geyser versions, sanitized YAML and stack traces in bug reports.
