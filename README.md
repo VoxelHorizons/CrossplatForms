@@ -68,3 +68,7 @@ Install `CrossplatForms-Spigot.jar` on Paper 26.3, with an up-to-date Geyser-Spi
 ### Minecraft 26.3 Floodgate classloading hotfix (1.6.2-voxel)
 
 Form APIs use `org.geysermc.cumulus.form.Form` provided by the running Floodgate/Geyser plugin. CrossplatForms must **not** bundle its own copy of Cumulus: doing so causes `LinkageError: loader constraint violation` when sending Bedrock forms. The fork treats Cumulus as `compileOnlyApi` and verifies that distribution jars contain no unrelocated Geyser, Floodgate or Cumulus API classes. Upgrade from 1.6.1-voxel to 1.6.2-voxel and restart the Paper server before testing form interactions.
+
+## Legacy server compatibility (Minecraft 1.12.2)
+
+The 1.12.2 CraftBukkit revision `v1_12_R1` selects the legacy skull adapter. Older Minecraft releases use `Material.SKULL_ITEM` with data/durability **3** for player heads; `Material.PLAYER_HEAD` only exists after the 1.13 flattening. The fork's legacy adapter creates the correct player-skull item, while modern releases continue to use `PLAYER_HEAD`. Regression tests load the legacy adapter against the **Spigot 1.12.2 API**, and the CI build verifies packaging. This is not a substitute for testing on a real 1.12.2 server with compatible plugins and Java runtime.
