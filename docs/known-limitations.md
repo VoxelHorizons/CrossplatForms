@@ -33,7 +33,7 @@ Current automated builds verify tests, shaded jar packaging and classloader boun
 
 ## Backlog surfaced by source audit
 
-- JavaMenu currently contains a TODO about validating configured inventory sizes and slots. Configuration validation should be improved so malformed menus fail with actionable errors.
+- JavaMenu now validates chest sizes and button slots before opening. Additional config validation for other modules (including action-specific validation) remains future work.
 - Documentation was not versioned with the fork. This documentation set now replaces obsolete upstream wiki links; every new feature should update its reference page and example.
 - Several integrations and old compatibility paths need runtime regression tests rather than relying only on build success.
 
