@@ -2,6 +2,7 @@ package dev.kejona.crossplatforms.interfacing.java;
 
 import com.google.inject.Inject;
 import dev.kejona.crossplatforms.Constants;
+import dev.kejona.crossplatforms.Logger;
 import dev.kejona.crossplatforms.action.Action;
 import dev.kejona.crossplatforms.handler.FormPlayer;
 import dev.kejona.crossplatforms.interfacing.Interface;
@@ -18,6 +19,7 @@ import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 
 @ToString
 @Getter
@@ -54,12 +56,19 @@ public class JavaMenu extends Interface {
 
     @Override
     public void send(@Nonnull FormPlayer recipient, @Nonnull Resolver resolver) {
+        String problem = configurationProblem(type, size, buttons.keySet());
+        if (problem != null) {
+            Logger.get().warn("Invalid Java menu '" + identifier + "': " + problem);
+            recipient.warn("This menu is misconfigured. Please contact an administrator.");
+            return;
+        }
+
         String title = resolver.apply(this.title);
         InventoryHandle inventory;
         if (type == InventoryLayout.CHEST) {
             if (size == 5) {
-                // Extra safeguard for hopper
-                type = InventoryLayout.HOPPER;
+                // Legacy five-slot CHEST entries are displayed as a hopper.
+                // Do not mutate 'type': it is shared across every opening.
                 inventory = factory.inventory(title, InventoryLayout.HOPPER);
             } else {
                 inventory = factory.chest(title, size);
@@ -67,7 +76,6 @@ public class JavaMenu extends Interface {
         } else {
             inventory = factory.inventory(title, type);
         }
-        // todo: size validation/restraint
         for (Integer slot : buttons.keySet()) {
             ItemButton button = buttons.get(slot);
             inventory.setSlot(slot, button.convertAndResolve(resolver));
@@ -87,6 +95,40 @@ public class JavaMenu extends Interface {
         };
 
         controller.openInventory(recipient, inventory, clickHandler);
+    }
+
+    /**
+     * Return a readable configuration error before creating an inventory.
+     * CHEST size 5 is the historical shorthand for HOPPER.
+     */
+    static String configurationProblem(InventoryLayout layout, int size, Set<Integer> slots) {
+        if (layout == null) {
+            return "inventory layout/type is missing";
+        }
+
+        final int capacity;
+        if (layout == InventoryLayout.CHEST) {
+            if (size == 5) {
+                capacity = 5;
+            } else if (size >= 9 && size <= 54 && size % 9 == 0) {
+                capacity = size;
+            } else {
+                return "chest size must be 9, 18, 27, 36, 45, 54, or 5 for hopper (got " + size + ")";
+            }
+        } else if (layout == InventoryLayout.HOPPER) {
+            capacity = 5;
+        } else if (layout == InventoryLayout.DISPENSER) {
+            capacity = 9;
+        } else {
+            return "unrecognized inventory layout: " + layout;
+        }
+
+        for (Integer slot : slots) {
+            if (slot == null || slot < 0 || slot >= capacity) {
+                return "button slot " + slot + " is outside the " + capacity + " available slots";
+            }
+        }
+        return null;
     }
 
     private void affectPlayer(FormPlayer player, Iterable<Action<? super JavaMenu>> actions, Resolver resolver) {
