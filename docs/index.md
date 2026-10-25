@@ -20,6 +20,7 @@ CrossplatForms builds Bedrock-native forms for Geyser/Floodgate players and conv
 | Upgrade from upstream or resolve errors | [Migration and troubleshooting](migration-and-troubleshooting.md) |
 | Build and maintain the fork | [Development](development.md) |
 | See unimplemented/untested features | [Known limitations](known-limitations.md) |
+| Track remaining engineering gaps | [Maintenance roadmap](maintenance-roadmap.md) |
 
 ## Included configuration templates
 
@@ -32,4 +33,4 @@ These are the **actual packaged example files**, useful for comparing a config t
 
 Avoid copying entire example configs into a production server without reviewing the sample commands, server names and permissions. Examples are illustrative, not a server security policy.
 
-For screenshots see [the gallery](../images/README.md). For live failures use [Issues](https://github.com/VoxelHorizons/CrossplatForms/issues), attaching the plugin version, server and Geyser/Floodgate versions, sanitized YAML and the relevant error.
+For screenshots see [the gallery](../images/README.md). For live failures, consult [Migration and troubleshooting](migration-and-troubleshooting.md) and the [Maintenance roadmap](maintenance-roadmap.md). GitHub Issues is currently disabled for this fork; maintainers must enable it in repository settings before new issue reports can be filed.
