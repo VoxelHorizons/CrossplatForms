@@ -35,4 +35,4 @@ Documentation and downloads from the original upstream wiki/CI are not authorita
 - The smallest YAML interface reproducing the problem (redact secrets and private endpoints).
 - Full relevant console exception from start through final `Caused by:`.
 
-Report fork problems at [VoxelHorizons Issues](https://github.com/VoxelHorizons/CrossplatForms/issues). For compatibility status and unverified cases read [Known limitations](known-limitations.md).
+For compatibility status and unverified cases read [Known limitations](known-limitations.md) and the [Maintenance roadmap](maintenance-roadmap.md). GitHub Issues is currently disabled for this fork; enabling it in repository settings is needed before submitting bug reports through the issue tracker.
