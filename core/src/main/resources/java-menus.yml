@@ -34,7 +34,7 @@ menus:
           - server: "lobby"
       4:
         display-name: "§6Minigames"
-        material: GRASS
+        material: GRASS_BLOCK
         lore:
           - "Currently Available:"
           - "§fSpleef"

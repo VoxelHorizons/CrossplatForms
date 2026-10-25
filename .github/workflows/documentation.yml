@@ -1,0 +1,19 @@
+name: Documentation integrity
+on:
+  pull_request:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'README.md'
+      - 'CONTRIBUTING.md'
+      - 'scripts/check_docs.py'
+      - '.github/workflows/documentation.yml'
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Markdown links and documentation targets
+        run: python3 scripts/check_docs.py
