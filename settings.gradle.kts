@@ -1,17 +1,21 @@
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
-rootProject.name = "CrossplatForms"
-
 pluginManagement {
     repositories {
         gradlePluginPortal()
     }
     plugins {
         id("net.kyori.indra.git") version "3.0.1" // getting branch and commit info at compile time
-        id("net.kyori.indra") version "3.0.1" // multi-release jar for referencing Java 16 geyser api
-        id("com.github.johnrengelman.shadow") version "7.1.2" // shadowing dependencies
+        id("net.kyori.indra") version "3.0.1" // multi-release jar for referencing Java 21 Geyser API
+        id("com.gradleup.shadow") version "8.3.11" // shadowing dependencies
     }
 }
+
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.10.0"
+}
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
+rootProject.name = "CrossplatForms"
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -23,7 +27,7 @@ dependencyResolutionManagement {
 
         maven("https://oss.sonatype.org/content/repositories/snapshots") // bungeecord, spigot
         maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") // spigot
-        maven("https://repo.extendedclip.com/content/repositories/placeholderapi/") // PlaceholderAPI
+        maven("https://repo.helpch.at/releases/") // PlaceholderAPI
         maven("https://repo.codemc.io//repository/maven-public/") // NBT api
 
         maven("https://mvn.exceptionflug.de/repository/exceptionflug-public/") // protocolize for proxies

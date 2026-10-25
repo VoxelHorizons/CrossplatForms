@@ -9,13 +9,11 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ServerConnectEvent;
-import net.md_5.bungee.connection.InitialHandler;
-import net.md_5.bungee.connection.LoginResult;
-import net.md_5.bungee.protocol.Property;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.UUID;
+import java.lang.reflect.Method;
 
 @AllArgsConstructor
 public class BungeeCordPlayer implements FormPlayer {
@@ -43,31 +41,49 @@ public class BungeeCordPlayer implements FormPlayer {
     @Nullable
     @Override
     public String getEncodedSkinData() {
-        InitialHandler handler;
+        // BungeeCord's InitialHandler and LoginResult are internal proxy classes.
+        // Access them reflectively to keep the plugin compatible with both modern
+        // BungeeCord and forks without a brittle JitPack proxy dependency.
         try {
-            handler = (InitialHandler) player.getPendingConnection();
-        } catch (ClassCastException e) {
-            Logger.get().warn("Incompatible BungeeCord fork, unable to get skin texture");
+            Object handler = player.getPendingConnection();
+            if (handler == null) {
+                return null;
+            }
+            Object profile = handler.getClass().getMethod("getLoginProfile").invoke(handler);
+            if (profile == null) {
+                return null;
+            }
+            Object[] properties = (Object[]) profile.getClass().getMethod("getProperties").invoke(profile);
+            if (properties == null) {
+                return null;
+            }
+            for (Object property : properties) {
+                if ("textures".equals(readProperty(property, "getName", "name"))) {
+                    String value = readProperty(property, "getValue", "value");
+                    if (value != null && !value.isEmpty()) {
+                        return value;
+                    }
+                }
+            }
+        } catch (ReflectiveOperationException | SecurityException | ClassCastException e) {
+            Logger.get().warn("Unable to retrieve BungeeCord skin textures from this proxy version");
             if (Logger.get().isDebug()) {
                 e.printStackTrace();
             }
-            return null;
-        }
-
-        LoginResult loginResult = handler.getLoginProfile();
-        if (loginResult == null) {
-            return null;
-        }
-
-        for (Property property : loginResult.getProperties()) {
-            if (property.getName().equals("textures")) {
-                String value = property.getValue();
-                if (!value.isEmpty()) {
-                    return value;
-                }
-            }
         }
         return null;
+    }
+
+    private static String readProperty(Object property, String legacyGetter, String recordGetter)
+            throws ReflectiveOperationException {
+        Method method;
+        try {
+            method = property.getClass().getMethod(legacyGetter);
+        } catch (NoSuchMethodException ignored) {
+            method = property.getClass().getMethod(recordGetter);
+        }
+        Object value = method.invoke(property);
+        return value == null ? null : value.toString();
     }
 
     @Override

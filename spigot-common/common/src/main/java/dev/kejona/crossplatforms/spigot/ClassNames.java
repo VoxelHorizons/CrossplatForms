@@ -22,13 +22,21 @@ public final class ClassNames {
     public static final Field META_SKULL_PROFILE;
 
     static {
-        NMS_VERSION = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-        CRAFTBUKKIT_PACKAGE = "org.bukkit.craftbukkit." + NMS_VERSION;
+        // Paper and Spigot 1.20.5+ use the unversioned CraftBukkit package.
+        String packageName = Bukkit.getServer().getClass().getPackage().getName();
+        String[] segments = packageName.split("\\.");
+        NMS_VERSION = segments.length > 3 && segments[3].matches("v[0-9]+_[0-9]+_R[0-9]+")
+                ? segments[3] : "";
+        CRAFTBUKKIT_PACKAGE = NMS_VERSION.isEmpty() ? "org.bukkit.craftbukkit"
+                : "org.bukkit.craftbukkit." + NMS_VERSION;
 
         Class<?> craftPlayer = ReflectionUtils.requireClass(CRAFTBUKKIT_PACKAGE + ".entity.CraftPlayer");
         PLAYER_GET_PROFILE = ReflectionUtils.requireMethod(craftPlayer, "getProfile");
 
         Class<?> craftMetaSkull = ReflectionUtils.requireClass(CRAFTBUKKIT_PACKAGE + ".inventory.CraftMetaSkull");
-        META_SKULL_PROFILE = ReflectionUtils.requireField(craftMetaSkull, "profile");
+        // Only legacy adapters access the old private field. Modern versions may
+        // rename it or use a different type, so use the public API instead.
+        META_SKULL_PROFILE = NMS_VERSION.isEmpty() ? null
+                : ReflectionUtils.requireField(craftMetaSkull, "profile");
     }
 }

@@ -9,7 +9,14 @@ import java.util.UUID;
 @SuppressWarnings("unused") // loaded on JDK 16
 public class GeyserHandler implements BedrockHandler {
 
-    private final GeyserApi api = GeyserApi.api();
+    private final GeyserApi api;
+
+    public GeyserHandler() {
+        api = GeyserApi.api();
+        if (api == null) {
+            throw new IllegalStateException("Geyser's API is unavailable while the plugin is loading");
+        }
+    }
 
     public static boolean supported() {
         // method is used so that compiler doesn't inline value
