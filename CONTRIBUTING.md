@@ -1,6 +1,6 @@
 # Contributing to VoxelHorizons/CrossplatForms
 
-Please submit issues and pull requests to **this fork**, not the dormant upstream repository.
+Please submit changes to **this fork**, not the dormant upstream repository. GitHub Issues is currently disabled; maintainers can enable it in repository settings to accept bug reports. Track known work in [the maintenance roadmap](docs/maintenance-roadmap.md).
 
 ## Build and validate
 
