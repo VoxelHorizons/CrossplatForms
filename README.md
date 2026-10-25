@@ -17,7 +17,7 @@ An independently maintained fork of CrossplatForms, enabling **Bedrock Edition f
 - [Actions](docs/actions.md) · [Placeholders and arguments](docs/placeholders-and-arguments.md)
 - [Commands and permissions](docs/commands-and-permissions.md) · [Access items](docs/access-items.md)
 - [Cross-platform UI conversion recipes](docs/cross-platform-recipes.md)
-- [Migration and troubleshooting](docs/migration-and-troubleshooting.md) · [Known limitations](docs/known-limitations.md) · [Development](docs/development.md)
+- [Migration and troubleshooting](docs/migration-and-troubleshooting.md) · [Known limitations](docs/known-limitations.md) · [Maintenance roadmap](docs/maintenance-roadmap.md) · [Development](docs/development.md)
 
 The incomplete upstream GitHub wiki and outdated upstream CI are **not** the documentation/download sources for this fork.
 
@@ -50,4 +50,4 @@ The shaded distribution jars are written under `spigot/build/libs/`, `velocity/b
 
 Originally developed by the contributors of [kejonaMC/CrossplatForms](https://github.com/kejonaMC/CrossplatForms). Maintained for VoxelHorizons under the terms of the [repository licence](LICENSE).
 
-[Open an issue](https://github.com/VoxelHorizons/CrossplatForms/issues) · [Submit a pull request](https://github.com/VoxelHorizons/CrossplatForms/pulls) · [Screenshot gallery](images/README.md).
+[Submit a pull request](https://github.com/VoxelHorizons/CrossplatForms/pulls) · [Screenshot gallery](images/README.md). GitHub Issues is currently disabled; maintainers can enable it in repository settings to accept bug reports.
