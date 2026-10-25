@@ -19,6 +19,19 @@ jobs:
           cache: gradle
       - name: Build and test
         run: ./gradlew --no-daemon clean build
+      - name: Verify Cumulus and Geyser APIs are not shaded
+        shell: bash
+        run: |
+          set -euo pipefail
+          for plugin in spigot/build/libs/CrossplatForms-Spigot.jar bungeecord/build/libs/CrossplatForms-BungeeCord.jar velocity/build/libs/CrossplatForms-Velocity.jar; do
+            bundled="$(jar tf "$plugin" | grep -E '^org/geysermc/(cumulus|floodgate|geyser)/' || true)"
+            if [ -n "$bundled" ]; then
+              echo "::error file=$plugin::Provider API classes are bundled in $plugin; this causes Floodgate sendForm LinkageError."
+              printf '%s\n' "$bundled"
+              exit 1
+            fi
+            echo "Verified external Geyser/Floodgate/Cumulus APIs in $plugin"
+          done
       - name: Upload plugin jars
         if: success()
         uses: actions/upload-artifact@v4
