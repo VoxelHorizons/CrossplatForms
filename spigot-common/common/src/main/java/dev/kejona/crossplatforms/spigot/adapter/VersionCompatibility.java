@@ -9,7 +9,20 @@ public final class VersionCompatibility {
 
     private VersionCompatibility() { }
 
+    /**
+     * The absence of a v1_x_Ry CraftBukkit revision means we are on the modern
+     * unversioned package layout. This takes precedence over Bukkit version text
+     * (which may include custom/snapshot/build metadata).
+     */
+    public static boolean usesModernBukkitApi(String craftBukkitRevision, String bukkitVersion) {
+        return (craftBukkitRevision != null && craftBukkitRevision.isEmpty())
+                || usesModernBukkitApi(bukkitVersion);
+    }
+
     public static boolean usesModernBukkitApi(String bukkitVersion) {
+        if (bukkitVersion == null) {
+            return false;
+        }
         Matcher match = VERSION.matcher(bukkitVersion);
         if (!match.matches()) {
             return false;
