@@ -152,7 +152,7 @@ forms:
       - type: player
         format:
           actions:
-            - commands: "You selected %raw_text%"
+            - message: "You selected %raw_text%"
 
 # Don't touch this
 config-version: 5
