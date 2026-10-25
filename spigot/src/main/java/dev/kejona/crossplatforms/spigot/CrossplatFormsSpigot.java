@@ -26,15 +26,18 @@ public class CrossplatFormsSpigot extends SpigotBase {
 
     @Override
     public Versioned<SpigotAdapter> findVersionAdapter() {
-        // Since 1.20.5, release naming no longer maps to v1_x_Ry packages.
-        // The modern adapter only uses stable Bukkit APIs for metadata and items.
-        if (VersionCompatibility.usesModernBukkitApi(Bukkit.getBukkitVersion())) {
+        // Paper/Spigot 1.20.5+ no longer use revisioned CraftBukkit packages.
+        // The package layout is the reliable compatibility signal. Bukkit's
+        // reported version can vary in format between builds and snapshots.
+        String nmsVersion = ClassNames.NMS_VERSION;
+        String bukkitVersion = Bukkit.getBukkitVersion();
+        if (VersionCompatibility.usesModernBukkitApi(nmsVersion, bukkitVersion)) {
+            getLogger().info("Using modern Bukkit API adapter for Bukkit " + bukkitVersion
+                    + " (CraftBukkit: " + (nmsVersion.isEmpty() ? "unversioned" : nmsVersion) + ")");
             return Versioned.supported(createAdapter("1_20_R2"));
         }
-        if (ClassNames.NMS_VERSION.isEmpty()) {
-            return Versioned.unsupported("1.20.5 or newer");
-        }
-        Versioned<Supplier<SpigotAdapter>> adapterSupplier = INDEXER.lenientSearch(ClassNames.NMS_VERSION.substring(1));
+
+        Versioned<Supplier<SpigotAdapter>> adapterSupplier = INDEXER.lenientSearch(nmsVersion.substring(1));
         return Versioned.convertSupplierType(adapterSupplier);
     }
 
